@@ -80,6 +80,23 @@ button,select,input{font:inherit;color:inherit}
 .n:focus-visible rect.box,.n:focus-visible line{stroke:var(--accent);stroke-width:3}
 .badge text{font-size:11px;font-weight:700;fill:var(--surface)}
 
+.rod{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 18px 18px;scroll-margin-top:60px}
+.rod h2{font-family:var(--f-display);font-weight:800;font-size:21px;letter-spacing:-.01em;margin:0}
+.rod .lead{margin:2px 0 10px;color:var(--muted);font-size:14px}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13px;color:var(--muted);margin-bottom:8px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend svg{flex:none}
+.rodwrap{overflow:auto;border-top:1px solid var(--line);padding-top:8px}
+.rodwrap svg{display:block;margin:0 auto}
+.p text{font-family:var(--f-body);fill:var(--ink)}
+.p text.nm{font-weight:700;font-size:14px}
+.p text.ds{font-size:12.5px;fill:var(--muted)}
+.rl text{font-family:var(--f-body);font-size:12px;font-weight:700}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.chips span{border:1px solid var(--line);background:var(--bg);border-radius:999px;padding:3px 11px;font-size:13px}
+.chips b{font-weight:700}
+.rod .note{margin:10px 0 0;padding:9px 12px;border-left:3px solid var(--accent);background:var(--bg);border-radius:0 8px 8px 0;font-size:14px;max-width:80ch}
+
 .help{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:13px;color:var(--muted)}
 .help b{color:var(--ink);font-weight:700}
 @media (prefers-reduced-motion: reduce){*{scroll-behavior:auto !important}}
@@ -101,6 +118,7 @@ button,select,input{font:inherit;color:inherit}
         <button class="btn ic" id="prev" aria-label="Předchozí dílo" title="Předchozí dílo (←)">←</button>
         <select id="pick" aria-label="Vybrat dílo"></select>
         <button class="btn ic" id="next" aria-label="Další dílo" title="Další dílo (→)">→</button>
+        <button class="btn" id="rodbtn" hidden>Rodokmen ↓</button>
         <span class="sp"></span>
         <span class="grp">
           <button class="btn ic" id="zout" aria-label="Oddálit" title="Oddálit">−</button>
@@ -119,6 +137,15 @@ button,select,input{font:inherit;color:inherit}
         <span><b>Táhni myší</b> pro posun, <b>Ctrl + kolečko</b> pro zoom</span>
         <span><b>Šipky ← →</b> přepínají díla</span>
       </div>
+      <section class="rod" id="rod" hidden aria-labelledby="rodh">
+        <h2 id="rodh">Rodokmen a vztahy</h2>
+        <p class="lead" id="rodlead"></p>
+        <div class="legend" id="rodleg"></div>
+        <p class="lead" id="rodhint" hidden>Rodokmen je širší než obrazovka, posuň ho prstem do strany.</p>
+        <div class="rodwrap" id="rodwrap"><svg id="rodsvg" role="img" aria-label="Rodokmen postav"></svg></div>
+        <div class="chips" id="rodside"></div>
+        <p class="note" id="rodnote"></p>
+      </section>
     </div>
   </div>
 </div>
@@ -268,6 +295,78 @@ const LINKS = [
  ["bila","farma","varování před diktaturou"]
 ];
 
+/* Rodokmeny: r = řada (generace), c = sloupec. couples = manželé, kids = [rodiče, děti],
+   rel = [kdo, s kým, typ, popisek, nahoru?], side = vedlejší postavy mimo rodinu. */
+const ROD = {
+ lakomec:{lead:"Dvě rodiny, dva páry milenců a otec, který chce nevěstu svého syna.",
+  people:[
+   {id:"h", n:"Harpagon", d:"lakomý vdovec a lichvář, chce si vzít Marianu", r:0, c:1, main:true},
+   {id:"hz", n:"Harpagonova žena", d:"už nežije", r:0, c:2, dead:true},
+   {id:"a", n:"Anselm", d:"= don Tomas d'Alburci, ztratil rodinu při ztroskotání", r:0, c:4},
+   {id:"az", n:"Anselmova žena", d:"přežila, žije chudě s Marianou", r:0, c:5},
+   {id:"k", n:"Kleant", d:"syn, zadlužený, soupeří s otcem", r:1, c:1},
+   {id:"e", n:"Eliška", d:"dcera, otec ji chce dát Anselmovi", r:1, c:2},
+   {id:"v", n:"Valér", d:"správce domu, ve skutečnosti šlechtic", r:1, c:4},
+   {id:"m", n:"Mariana", d:"chudá dívka, o kterou stojí otec i syn", r:1, c:5}],
+  couples:[["h","hz"],["a","az"]],
+  kids:[[["h","hz"],["k","e"]],[["a","az"],["v","m"]]],
+  rel:[["h","k","conflict","soupeří o Marianu"],["e","v","love","Eliška ♥ Valér"],["k","m","love","Kleant ♥ Mariana"]],
+  side:[["Čipera","Kleantův sluha, ukradne kazetu"],["Frosina","dohazovačka, nakonec pomáhá mladým"],["Jakub","Harpagonův kuchař a kočí"]],
+  note:"Kleant si tajně půjčuje od lichváře a ukáže se, že lichvářem je jeho vlastní otec. Na konci Anselm pozná ztracené děti, slaví se dvě svatby (Kleant + Mariana, Valér + Eliška) a Harpagon dostane zpět svou kazetu."},
+ maj:{lead:"Trojúhelník otec – syn – milá, který skončí otcovraždou.",
+  people:[
+   {id:"o", n:"Vilémův otec", d:"vyhnal syna z domu, svedl Jarmilu", r:0, c:1, dead:true},
+   {id:"v", n:"Vilém", d:"„strašný lesů pán“, vůdce loupežníků", r:1, c:0, main:true},
+   {id:"j", n:"Jarmila", d:"čeká na Viléma u jezera", r:1, c:2}],
+  couples:[], kids:[[["o"],["v"]]],
+  rel:[["v","j","love","milenci"],["o","j","conflict","svedl ji"],["v","o","kill","Vilém ho zabije"]],
+  side:[["Hynek","poutník, po letech u Vilémovy lebky"],["žalářník","má s Vilémem soucit"]],
+  note:"Vilém zabije svůdce Jarmily a až pak zjistí, že to byl jeho otec. Za otcovraždu je popraven, Jarmila se utopí v jezeře."},
+ promena:{lead:"Rodina, kterou Řehoř živil, se ho po proměně postupně zbaví.",
+  people:[
+   {id:"o", n:"otec", d:"tvrdý a prchlivý, znovu začne pracovat", r:0, c:0},
+   {id:"m", n:"matka", d:"astmatická, při pohledu na syna omdlévá", r:0, c:1},
+   {id:"r", n:"Řehoř Samsa", d:"obchodní cestující, živí rodinu, promění se v hmyz", r:1, c:0, main:true},
+   {id:"g", n:"Markéta (Grete)", d:"17letá sestra, hraje na housle", r:1, c:1}],
+  couples:[["o","m"]], kids:[[["o","m"],["r","g"]]],
+  rel:[["o","r","conflict","hodí po něm jablko"],["r","g","care","pečuje, pak ho zavrhne"]],
+  side:[["posluhovačka","nebojí se ho, tělo uklidí"],["prokurista","šéf, přijde zjistit, kde Řehoř je"],["tři podnájemníci","uvidí Řehoře a odejdou"]],
+  note:"Role se obrátí: dřív Řehoř živil všechny, po proměně si práci najde otec, matka i Markéta a on je přítěž. Po jeho smrti rodině ulehčí a jede na výlet."},
+ spalovac:{lead:"Otec rodiny, ze kterého nacismus udělá vraha vlastních blízkých.",
+  people:[
+   {id:"w", n:"Willi Reinke", d:"přítel z války, nacista", r:0, c:-1.35},
+   {id:"k", n:"Karel Kopfrkingl", d:"zřízenec krematoria, „dobrý“ otec", r:0, c:0, main:true},
+   {id:"l", n:"Lakmé (Marie)", d:"manželka, má židovský původ", r:0, c:1, dead:true},
+   {id:"mi", n:"Mili", d:"syn, prý „málo německý“", r:1, c:0, dead:true},
+   {id:"z", n:"Zina", d:"dcera, jako jediná přežije", r:1, c:1}],
+  couples:[["k","l"]], kids:[[["k","l"],["mi","z"]]],
+  rel:[["w","k","conflict","namluví mu německou krev",true],["k","l","kill","oběsí ji",true],["k","mi","kill","zabije ho tyčí"]],
+  side:[],
+  note:"Kopfrkingl věří, že smrt duše „vysvobozuje“. Reinke ho přesvědčí, že rodina je „nečistá“. Zinu už nestihne zabít, zešílí a odveze ho sanitka."},
+ bila:{lead:"Dvě mocné rodiny a lékař, který jim klade podmínku: mír.",
+  people:[
+   {id:"m", n:"Maršál", d:"diktátor, chystá válku, sám onemocní", r:0, c:0, main:true},
+   {id:"k", n:"baron Krüg", d:"zbrojař, nakonec se zastřelí", r:0, c:2.2, dead:true},
+   {id:"g", n:"dr. Galén", d:"chudý lékař, má lék na bílou nemoc", r:0, c:4, main:true},
+   {id:"d", n:"Maršálova dcera", d:"prosí otce, aby uzavřel mír", r:1, c:0.4},
+   {id:"s", n:"mladý Krüg", d:"baronův syn", r:1, c:1.8}],
+  couples:[], kids:[[["m"],["d"]],[["k"],["s"]]],
+  rel:[["d","s","love","mladý pár"],["g","k","conflict","zastav zbrojení",true],["g","m","conflict","lék jen za mír",true]],
+  side:[["dvorní rada Sigelius","ředitel kliniky, chce si objev přivlastnit"],["rodina (otec, matka, syn, dcera)","obyčejní lidé, nemoc i válka je zasáhnou"],["dav","fanaticky volá po válce"]],
+  note:"Krüg odmítne zastavit zbrojení a zastřelí se. Maršál onemocní a k míru svolí, ale Galéna cestou k němu ušlape dav a lék se zničí."},
+ petr:{lead:"Malá rodina, kterou válka rozdělí, a láska, kterou válka ukončí.",
+  people:[
+   {id:"o", n:"otec", d:"soudce", r:0, c:0},
+   {id:"m", n:"matka", d:"", r:0, c:1},
+   {id:"f", n:"Filip", d:"starší bratr, válka mu vzala ideály", r:1, c:0},
+   {id:"p", n:"Petr Aubier", d:"18 let, za půl roku má narukovat", r:1, c:1, main:true, dead:true},
+   {id:"l", n:"Lucie", d:"chudá dívka, maluje kopie obrazů", r:1, c:2.4, dead:true}],
+  couples:[["o","m"]], kids:[[["o","m"],["f","p"]]],
+  rel:[["p","l","love","potkají se v metru při náletu"]],
+  side:[],
+  note:"Petr a Lucie spolu zahynou na Velký pátek 29. 3. 1918, když střela zasáhne kostel sv. Gervasia."}
+};
+
 const W = Object.fromEntries(WORKS.map(w=>[w.id,w]));
 const P = Object.fromEntries(PERIODS.map(p=>[p.id,p]));
 
@@ -293,7 +392,7 @@ function workTree(w){
     C("Téma",5,[L(w.tema)]),
     C("Motivy",6,w.motivy.map(m=>L(m))),
     C("Časoprostor",7,[L(`čas: ${w.cas}`), L(`prostor: ${w.prostor}`)]),
-    C("Postavy",1,w.postavy.map(([nm,d])=>L(nm,{note:d}))),
+    C("Postavy",1,w.postavy.map(([nm,d])=>L(nm,{note:d})).concat(ROD[w.id]?[L("rodokmen a vztahy pod mapou ↓",{rod:true})]:[])),
   ];
   (w.extra||[]).forEach((x,i)=>left.push(C(x.h, i?4:2, x.li.map(l=>L(l)))));
   return {kind:"root", title:w.t, sub:`${w.a} · ${w.y}`, right, left};
@@ -383,9 +482,9 @@ function render(){
     const sw = parent.kind==="root" ? 3 : parent.kind==="cat" ? 2 : 1.5;
     paths += `<path d="M${px},${py} C${mx},${py} ${mx},${cy} ${cx},${cy}" fill="none" stroke="var(--c${color})" stroke-width="${sw}" stroke-linecap="round"/>`;
     const hasKids = n.children && n.children.length;
-    const cls = ["n", n.kind, hasKids?"tg":"", n.go?"go":""].join(" ");
+    const cls = ["n", n.kind, hasKids?"tg":"", n.go||n.rod?"go":""].join(" ");
     const label = n.label + (n.note ? ": " + n.note : "");
-    const act = hasKids || n.go ? ` tabindex="0" role="button" aria-label="${esc(label)}${hasKids?(n.collapsed?", sbaleno":", rozbaleno"):""}"` : "";
+    const act = hasKids || n.go || n.rod ? ` tabindex="0" role="button" aria-label="${esc(label)}${hasKids?(n.collapsed?", sbaleno":", rozbaleno"):""}"` : "";
     let g = `<g class="${cls}" data-i="${i}"${act}>`;
     const anchorEnd = n.dir<0 && n.kind!=="cat";
     const tx = anchorEnd ? n.x0 + n.w - n.padX : n.x0 + n.padX;
@@ -421,6 +520,117 @@ function render(){
   svg.setAttribute("viewBox", `${minX} ${minY} ${Wd} ${Hd}`);
   svg.setAttribute("width", Wd*scale); svg.setAttribute("height", Hd*scale);
   svg.innerHTML = paths + nodes;
+}
+
+/* ---------- rodokmen ---------- */
+const RT = {
+  love:{c:4, dash:"7 5", w:2, t:"láska"},
+  conflict:{c:3, dash:"3 4", w:2, t:"spor, nátlak"},
+  kill:{c:6, dash:"", w:2.6, t:"zabije"},
+  care:{c:2, dash:"1 4", w:2.4, t:"péče"}
+};
+const rodSec = document.getElementById("rod"), rodSvg = document.getElementById("rodsvg"), rodWrap = document.getElementById("rodwrap");
+const rodBtn = document.getElementById("rodbtn");
+const lineIcon = (c, dash, w) => `<svg width="30" height="10" aria-hidden="true"><line x1="2" y1="5" x2="28" y2="5" stroke="${c}" stroke-width="${w}" stroke-dasharray="${dash}" stroke-linecap="round"/></svg>`;
+
+function renderRod(){
+  const r = current!=="__ov" && ROD[current];
+  rodSec.hidden = rodBtn.hidden = !r;
+  if (!r) return;
+  const BW = 176, COLW = 206, GAP = 120, PX = 12;
+  const by = {}, minC = Math.min(...r.people.map(p=>p.c));
+  r.people.forEach(p=>{
+    p.lines = wrap((p.dead?"† ":"")+p.n, BW-PX*2, FONT.sub);
+    p.dl = p.d ? wrap(p.d, BW-PX*2, FONT.note) : [];
+    p.h0 = p.lines.length*18 + p.dl.length*16 + 18; by[p.id] = p;
+  });
+  const rows = [...new Set(r.people.map(p=>p.r))].sort((a,b)=>a-b);
+  const rowH = rows.map(k=>Math.max(...r.people.filter(p=>p.r===k).map(p=>p.h0)));
+  const rowY = {}; let yy = 0;
+  rows.forEach((k,i)=>{ rowY[k] = yy; yy += rowH[i] + GAP; });
+  r.people.forEach(p=>{ p.x = (p.c-minC)*COLW; p.y = rowY[p.r]; p.h = rowH[rows.indexOf(p.r)]; });
+
+  let minX=Infinity, maxX=-Infinity, minY=Infinity, maxY=-Infinity;
+  const grow = (x,y) => { minX=Math.min(minX,x); maxX=Math.max(maxX,x); minY=Math.min(minY,y); maxY=Math.max(maxY,y); };
+  let lines = "", rels = "", labels = "", boxes = "";
+
+  r.couples.forEach(([a,b])=>{
+    const A = by[a], B = by[b], y = A.y + A.h/2, mx = (A.x+B.x)/2;
+    lines += `<line x1="${A.x+BW/2}" y1="${y}" x2="${B.x-BW/2}" y2="${y}" stroke="var(--ink)" stroke-width="2"/>
+      <circle cx="${mx-3.5}" cy="${y}" r="5.5" fill="var(--surface)" stroke="var(--ink)" stroke-width="1.6"/>
+      <circle cx="${mx+3.5}" cy="${y}" r="5.5" fill="none" stroke="var(--ink)" stroke-width="1.6"/>`;
+  });
+  r.kids.forEach(([of, ch])=>{
+    const ps = of.map(i=>by[i]), cs = ch.map(i=>by[i]);
+    const sx = ps.length===2 ? (ps[0].x+ps[1].x)/2 : ps[0].x;
+    const sy = ps.length===2 ? ps[0].y + ps[0].h/2 : ps[0].y + ps[0].h;
+    const bus = cs[0].y - GAP/2;
+    const xs = cs.map(c=>c.x).concat(sx);
+    let d = `M${sx},${sy} V${bus} M${Math.min(...xs)},${bus} H${Math.max(...xs)}`;
+    cs.forEach(c=>{ d += ` M${c.x},${bus} V${c.y}`; });
+    lines += `<path d="${d}" fill="none" stroke="var(--muted)" stroke-width="2" stroke-linecap="round"/>`;
+  });
+  r.rel.forEach(([a,b,t,l,up])=>{
+    const A = by[a], B = by[b], st = RT[t];
+    let d, lx, ly;
+    if (A.r===B.r){
+      const P0 = A.x<B.x ? A : B, P1 = P0===A ? B : A;
+      const x1 = P0.x + BW/4, x2 = P1.x - BW/4, dep = (34 + (x2-x1)*0.11) * (up?-1:1);
+      const y0 = up ? A.y : A.y + A.h;
+      d = `M${x1},${y0} C${x1},${y0+dep} ${x2},${y0+dep} ${x2},${y0}`; lx = (x1+x2)/2; ly = y0 + dep*0.75;
+    } else {
+      const U = A.r<B.r ? A : B, D = U===A ? B : A;
+      if (Math.abs(U.x-D.x) < COLW*0.6){
+        const x0 = Math.min(U.x,D.x) - BW/2, y1 = U.y + U.h/2, y2 = D.y + D.h/2;
+        d = `M${x0},${y1} C${x0-80},${y1} ${x0-80},${y2} ${x0},${y2}`; lx = x0 - 60; ly = (y1+y2)/2;
+      } else {
+        const s = D.x<U.x ? -1 : 1;
+        const x1 = U.x + s*BW/2, y1 = U.y + U.h/2, x2 = D.x - s*BW/4, y2 = D.y;
+        d = `M${x1},${y1} C${x2},${y1} ${x2},${y1} ${x2},${y2}`; lx = .125*x1 + .875*x2; ly = .875*y1 + .125*y2;
+      }
+    }
+    rels += `<path d="${d}" fill="none" stroke="var(--c${st.c})" stroke-width="${st.w}" stroke-dasharray="${st.dash}" stroke-linecap="round"/>`;
+    const lw = tw(l, '700 12px "Atkinson Hyperlegible", "Segoe UI", sans-serif') + 16;
+    labels += `<g class="rl"><rect x="${lx-lw/2}" y="${ly-11}" width="${lw}" height="22" rx="11" fill="var(--surface)" stroke="var(--c${st.c})" stroke-width="1.4"/>
+      <text x="${lx}" y="${ly+4}" text-anchor="middle" fill="var(--c${st.c})">${esc(l)}</text></g>`;
+    grow(lx-lw/2, ly-11); grow(lx+lw/2, ly+11);
+  });
+  r.people.forEach(p=>{
+    const x0 = p.x - BW/2;
+    const fill = p.main ? "color-mix(in srgb, var(--accent) 13%, var(--surface))" : "var(--surface)";
+    const stroke = p.main ? "var(--accent)" : "var(--line)";
+    boxes += `<g class="p"><rect x="${x0}" y="${p.y}" width="${BW}" height="${p.h}" rx="10" fill="${fill}" stroke="${stroke}" stroke-width="${p.main?2:1.4}"${p.dead&&!p.main?' stroke-dasharray="5 4"':""}/>`;
+    let ty = p.y + 22;
+    p.lines.forEach(l=>{ boxes += `<text class="nm" x="${x0+PX}" y="${ty}">${esc(l)}</text>`; ty += 18; });
+    ty += 1;
+    p.dl.forEach(l=>{ boxes += `<text class="ds" x="${x0+PX}" y="${ty}">${esc(l)}</text>`; ty += 16; });
+    boxes += `</g>`;
+    grow(x0, p.y); grow(x0+BW, p.y+p.h);
+  });
+
+  const pad = 14; minX-=pad; minY-=pad; maxX+=pad; maxY+=pad;
+  const Wd = maxX-minX, Hd = maxY-minY;
+  const scale = Math.max(0.85, Math.min(1, (rodWrap.clientWidth-2)/Wd));
+  document.getElementById("rodhint").hidden = Wd*scale <= rodWrap.clientWidth;
+  rodSvg.setAttribute("viewBox", `${minX} ${minY} ${Wd} ${Hd}`);
+  rodSvg.setAttribute("width", Wd*scale); rodSvg.setAttribute("height", Hd*scale);
+  rodSvg.setAttribute("aria-label", `Rodokmen postav: ${W[current].t}`);
+  rodSvg.innerHTML = lines + rels + boxes + labels;
+
+  document.getElementById("rodh").textContent = `Rodokmen a vztahy: ${W[current].t}`;
+  document.getElementById("rodlead").textContent = r.lead;
+  const used = [...new Set(r.rel.map(x=>x[2]))];
+  let leg = "";
+  if (r.couples.length) leg += `<span><svg width="30" height="14" aria-hidden="true"><line x1="0" y1="7" x2="30" y2="7" stroke="var(--ink)" stroke-width="2"/><circle cx="11.5" cy="7" r="5" fill="var(--surface)" stroke="var(--ink)" stroke-width="1.5"/><circle cx="18.5" cy="7" r="5" fill="none" stroke="var(--ink)" stroke-width="1.5"/></svg>manželé</span>`;
+  if (r.kids.length) leg += `<span>${lineIcon("var(--muted)","",2)}rodič a dítě</span>`;
+  used.forEach(t=>{ const s = RT[t]; leg += `<span>${lineIcon(`var(--c${s.c})`, s.dash, s.w)}${s.t}</span>`; });
+  if (r.people.some(p=>p.dead)) leg += `<span><b>†</b> zemře nebo už nežije</span>`;
+  leg += `<span><svg width="18" height="14" aria-hidden="true"><rect x="1" y="1" width="16" height="12" rx="3" fill="color-mix(in srgb, var(--accent) 13%, var(--surface))" stroke="var(--accent)" stroke-width="1.6"/></svg>hlavní postava</span>`;
+  document.getElementById("rodleg").innerHTML = leg;
+  const side = document.getElementById("rodside");
+  side.innerHTML = r.side.length ? r.side.map(([n,d])=>`<span><b>${esc(n)}</b>: ${esc(d)}</span>`).join("") : "";
+  side.hidden = !r.side.length;
+  document.getElementById("rodnote").textContent = r.note;
 }
 
 /* ---------- navigace ---------- */
@@ -463,7 +673,7 @@ function open(id){
   document.title = id==="__ov" ? "Maturitní kánon 17" : `${W[id].t} · Maturitní kánon 17`;
   try { history.replaceState(null, "", id==="__ov" ? location.pathname : "#"+id); } catch(e){}
   try { localStorage.setItem("kanon-last", id); } catch(e){}
-  render(); centerView();
+  render(); centerView(); renderRod();
 }
 function step(d){
   const all = ["__ov", ...ORDER]; const i = all.indexOf(current);
@@ -491,6 +701,7 @@ find.addEventListener("keydown", e=>{ if (e.key==="Enter"){ const b=list.querySe
 pick.addEventListener("change", e=>open(e.target.value));
 document.getElementById("prev").addEventListener("click", ()=>step(-1));
 document.getElementById("next").addEventListener("click", ()=>step(1));
+rodBtn.addEventListener("click", ()=>rodSec.scrollIntoView({behavior:"smooth", block:"start"}));
 document.getElementById("expand").addEventListener("click", ()=>setAll(false));
 document.getElementById("collapse").addEventListener("click", ()=>setAll(true));
 document.getElementById("zin").addEventListener("click", ()=>setZoom(zoom*1.2));
@@ -520,6 +731,7 @@ window.addEventListener("pointerup", ()=>{ drag = null; canvas.classList.remove(
 function activate(el){
   const n = NODES[+el.dataset.i]; if (!n) return;
   if (n.go) return open(n.go);
+  if (n.rod) return rodSec.scrollIntoView({behavior:"smooth", block:"start"});
   if (n.children && n.children.length){ n.collapsed = !n.collapsed; render(); }
 }
 svg.addEventListener("click", e=>{ if (moved){ moved=false; return; } const g=e.target.closest("[data-i]"); if (g) activate(g); });
@@ -537,8 +749,8 @@ if (!W[start]) { try { start = localStorage.getItem("kanon-last") || ""; } catch
 open(W[start] ? start : "__ov");
 window.addEventListener("hashchange", ()=>{ const h = location.hash.slice(1); if (W[h] && h!==current) open(h); });
 let lastW = canvas.clientWidth;
-new ResizeObserver(()=>{ if (Math.abs(canvas.clientWidth-lastW)>4){ lastW=canvas.clientWidth; render(); } }).observe(canvas);
-if (document.fonts) document.fonts.ready.then(()=>{ render(); centerView(); });
+new ResizeObserver(()=>{ if (Math.abs(canvas.clientWidth-lastW)>4){ lastW=canvas.clientWidth; render(); renderRod(); } }).observe(canvas);
+if (document.fonts) document.fonts.ready.then(()=>{ render(); centerView(); renderRod(); });
 </script>
 </body>
 </html>
