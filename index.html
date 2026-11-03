@@ -1,0 +1,544 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Maturitní kánon 17</title>
+<meta name="description" content="Myšlenkové mapy 17 maturitních děl z češtiny: autor, zařazení, téma, motivy, časoprostor, postavy, doba a souvislosti.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap">
+<style>
+/* Layout: vlevo hledání a seznam děl podle období, vpravo myšlenková mapa vybraného díla (dílo uprostřed, větve do stran). */
+:root{
+  --bg:#EEF1F6; --surface:#FFFFFF; --ink:#18203A; --muted:#58627A; --line:#D3D9E6; --accent:#2A47C6; --hover:#E6EAF4;
+  --c1:#2F55D4; --c2:#0E7A70; --c3:#8A5A00; --c4:#B0306A; --c5:#6B3FC0; --c6:#C2541B; --c7:#2E7D32; --c8:#0A6E9E;
+  --f-display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --f-body:"Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#11151F; --surface:#1A2030; --ink:#E5E9F3; --muted:#9AA3B9; --line:#2D3548; --accent:#8EA4FF; --hover:#242C40;
+  --c1:#8EA4FF; --c2:#4FC4B6; --c3:#E0B354; --c4:#F07AAE; --c5:#B79BFF; --c6:#F39A62; --c7:#7BCB7F; --c8:#5DC1F0; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#11151F; --surface:#1A2030; --ink:#E5E9F3; --muted:#9AA3B9; --line:#2D3548; --accent:#8EA4FF; --hover:#242C40;
+  --c1:#8EA4FF; --c2:#4FC4B6; --c3:#E0B354; --c4:#F07AAE; --c5:#B79BFF; --c6:#F39A62; --c7:#7BCB7F; --c8:#5DC1F0; color-scheme:dark}
+
+*{box-sizing:border-box}
+html,body{margin:0}
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.5}
+[hidden]{display:none !important}
+.wrap{max-width:1600px;margin:0 auto;padding-block:18px 28px;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
+header{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:4px 20px}
+h1{font-family:var(--f-display);font-weight:800;font-size:clamp(24px,3vw,34px);letter-spacing:-.02em;line-height:1.1;margin:0;text-wrap:balance}
+header p{margin:0;color:var(--muted);font-size:14px}
+button,select,input{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+.layout{display:grid;grid-template-columns:260px minmax(0,1fr);gap:18px;margin-top:14px}
+@media (max-width:900px){.layout{grid-template-columns:minmax(0,1fr)}.side{display:none}}
+
+.side{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 10px;align-self:start;position:sticky;top:calc(env(safe-area-inset-top, 0px) + 12px);max-height:calc(100vh - 24px);overflow:auto}
+#find{width:100%;border:1px solid var(--line);background:var(--bg);border-radius:8px;padding:8px 10px;font-size:14px}
+.side .ov{width:100%;text-align:left;border:1px solid var(--line);background:var(--bg);border-radius:8px;padding:7px 10px;font-weight:700;cursor:pointer;margin:8px 0 2px}
+.side .era{font-size:11.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin:12px 8px 3px}
+.side .w{display:block;width:100%;text-align:left;border:0;background:none;border-radius:7px;padding:5px 8px;cursor:pointer;line-height:1.25}
+.side .w small{display:block;color:var(--muted);font-size:12.5px}
+.side .w small.hit{color:var(--accent)}
+.side .w:hover,.side .ov:hover{background:var(--hover)}
+.side .on,.side .on:hover{background:var(--ink);color:var(--bg)}
+.side .on small{color:inherit;opacity:.75}
+.side .none{color:var(--muted);font-size:14px;padding:10px 8px}
+
+.main{min-width:0;display:flex;flex-direction:column;gap:10px}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:4px}
+.btn{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:6px 11px;cursor:pointer;font-size:14px;min-height:36px}
+.btn:hover{background:var(--hover)}
+.btn.ic{min-width:38px;font-weight:700}
+.grp{display:inline-flex;gap:4px}
+#pick{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:6px 8px;font-size:14px;max-width:100%;min-width:0;flex:1 1 200px;min-height:36px}
+@media (min-width:901px){#pick{display:none}}
+.bar .sp{flex:1}
+@media (max-width:900px){.bar .sp{display:none}.bar{position:static}}
+
+.canvas{display:grid;background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:auto;height:min(80vh,920px);min-height:460px;cursor:grab;touch-action:pan-x pan-y}
+.canvas.drag{cursor:grabbing;user-select:none}
+.canvas svg{margin:auto;display:block}
+.n.tg,.n.go{cursor:pointer}
+.n.tg:hover rect.box{stroke-width:2.6}
+.n.go:hover text{text-decoration:underline}
+.n text{font-family:var(--f-body);font-size:14px;fill:var(--ink)}
+.n.cat text{font-family:var(--f-display);font-weight:700;font-size:14.5px}
+.n.sub text, .n text.nm{font-weight:700}
+.n text.nt{font-size:13px;fill:var(--muted)}
+.n.root text.t{font-family:var(--f-display);font-weight:800;font-size:23px;fill:var(--bg)}
+.n.root text.s{font-size:13.5px;fill:var(--bg);opacity:.8}
+.n.go text{fill:var(--accent)}
+.n:focus{outline:none}
+.n:focus-visible rect.box,.n:focus-visible line{stroke:var(--accent);stroke-width:3}
+.badge text{font-size:11px;font-weight:700;fill:var(--surface)}
+
+.help{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:13px;color:var(--muted)}
+.help b{color:var(--ink);font-weight:700}
+@media (prefers-reduced-motion: reduce){*{scroll-behavior:auto !important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Maturitní kánon 17</h1>
+    <p>Myšlenkové mapy všech 17 děl. Vyber si dílo a projdi si jeho větve.</p>
+  </header>
+  <div class="layout">
+    <nav class="side" aria-label="Seznam děl">
+      <input id="find" type="search" placeholder="Hledat dílo, autora, postavu…" autocomplete="off" aria-label="Hledat dílo, autora nebo postavu">
+      <div id="list"></div>
+    </nav>
+    <div class="main">
+      <div class="bar">
+        <button class="btn ic" id="prev" aria-label="Předchozí dílo" title="Předchozí dílo (←)">←</button>
+        <select id="pick" aria-label="Vybrat dílo"></select>
+        <button class="btn ic" id="next" aria-label="Další dílo" title="Další dílo (→)">→</button>
+        <span class="sp"></span>
+        <span class="grp">
+          <button class="btn ic" id="zout" aria-label="Oddálit" title="Oddálit">−</button>
+          <button class="btn" id="zfit" title="Přizpůsobit velikost oknu">Celá mapa</button>
+          <button class="btn ic" id="zin" aria-label="Přiblížit" title="Přiblížit">+</button>
+        </span>
+        <span class="grp">
+          <button class="btn" id="expand">Rozbalit vše</button>
+          <button class="btn" id="collapse">Sbalit vše</button>
+        </span>
+      </div>
+      <div class="canvas" id="canvas"><svg id="svg" role="img" aria-label="Myšlenková mapa"></svg></div>
+      <div class="help">
+        <span><b>Klik na větev</b> ji sbalí nebo rozbalí</span>
+        <span><b>Modré položky</b> otevřou související dílo</span>
+        <span><b>Táhni myší</b> pro posun, <b>Ctrl + kolečko</b> pro zoom</span>
+        <span><b>Šipky ← →</b> přepínají díla</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const PERIODS = [
+ {id:"p1", name:"Absolutismus a klasicismus", yrs:"2. pol. 17. st.",
+  svet:["Francie Ludvíka XIV. (1643–1715), „Král Slunce“, absolutismus, Versailles","Král podporuje umělce, Molière byl jeho chráněncem","Bohatne měšťanstvo, o postavení rozhodují peníze a sňatky z rozumu"],
+  nas:["Doba po Bílé hoře (1620) a třicetileté válce (1618–1648)","Rekatolizace, Obnovené zřízení zemské (1627)","Komenský umírá v exilu v Amsterdamu (1670)"],
+  lit:["Klasicismus (Francie): rozum, řád, pravidla, vzorem antika, tři jednoty, vysoké a nízké žánry","Baroko (u nás): náboženská tématika, citovost, kontrasty"],
+  autori:["Pierre Corneille – Cid","Jean Racine – Faidra, Andromacha","Jean de La Fontaine – Bajky","Nicolas Boileau – Umění básnické","J. A. Komenský – Labyrint světa a ráj srdce","Bohuslav Balbín – Obrana jazyka slovanského"]},
+ {id:"p2", name:"Národní obrození a Metternichova Evropa", yrs:"1815–1848",
+  svet:["Vídeňský kongres (1815), Metternichův absolutismus: cenzura, tajná policie","Revoluce ve Francii (1830), polské povstání (1830–1831)","Průmyslová revoluce: parní stroj, továrny, železnice"],
+  nas:["Rakouské císařství, František I., od 1835 Ferdinand I. Dobrotivý","Národní obrození: Jungmannův slovník, Palackého Dějiny","1834 Fidlovačka s písní Kde domov můj"],
+  lit:["Romantismus: cit nad rozumem, osamělý vzpurný hrdina, příroda, noc, smrt, tajemno, lidová tvorba"],
+  autori:["G. G. Byron – Childe Haroldova pouť","A. S. Puškin – Evžen Oněgin","Adam Mickiewicz – Pan Tadeáš","Victor Hugo – Chrám Matky Boží v Paříži","Mary Shelleyová – Frankenstein","F. L. Čelakovský – Ohlasy písní","Jan Kollár – Slávy dcera","J. K. Tyl – Fidlovačka, Strakonický dudák","N. V. Gogol – Revizor (1836, jako Máj)"],
+  tip:"Máj a Havran dělí jen 9 let, oba jsou temný romantismus"},
+ {id:"p3", name:"Revoluce 1848 a Bachův absolutismus", yrs:"1848–1859",
+  svet:["Jaro národů (1848), pád Metternicha","Komunistický manifest (1848)","Revoluce potlačeny, vrací se tvrdá vláda"],
+  nas:["1848: Slovanský sjezd, svatodušní bouře, zrušení roboty, Kroměřížský sněm","1851 Silvestrovské patenty, Bachův absolutismus: cenzura, policie, germanizace","Prosinec 1851: Havlíček zatčen a deportován do Brixenu"],
+  lit:["Konec romantismu, začátek realismu","Bez politiky se literatura obrací k lidovým tradicím (Erben, Němcová) nebo k satiře (Havlíček)"],
+  autori:["Božena Němcová – Babička (1855)","J. K. Tyl – Paličova dcera","František Palacký – Dějiny národu českého","Jan Neruda – Hřbitovní kvítí (1857)","Charles Dickens – Oliver Twist"],
+  tip:"Tyrolské elegie a Kytice: na útlak satirou × návratem k lidové slovesnosti"},
+ {id:"p4", name:"Prusko-francouzská válka a realismus", yrs:"1870–1900",
+  svet:["Prusko-francouzská válka (1870–1871), Prusové obsadili i Rouen","Pád Napoleona III., Pařížská komuna (1871), sjednocení Německa","Druhá průmyslová revoluce, sílí buržoazie"],
+  nas:["Rakousko-uherské vyrovnání (1867)","Národní divadlo (1881, po požáru 1883)","1882 rozdělení pražské univerzity"],
+  lit:["Realismus: pravdivý obraz skutečnosti, kritika společnosti, typické postavy","Naturalismus: člověka určuje prostředí, původ a dědičnost (Zola)"],
+  autori:["Émile Zola – Zabiják, Germinal","Gustave Flaubert – Paní Bovaryová","L. N. Tolstoj – Vojna a mír","F. M. Dostojevskij – Zločin a trest","Jan Neruda – Povídky malostranské","Alois Jirásek – Psohlavci","A. a V. Mrštíkové – Maryša"]},
+ {id:"p5", name:"Konec Rakouska-Uherska a 1. světová válka", yrs:"1900–1918",
+  svet:["Fin de siècle: automobil, letadlo, film, pocit konce epochy","28. 6. 1914 Sarajevo, 1. světová válka (1914–1918)","1917 bolševická revoluce (předloha Farmy zvířat)","Jaro 1918: Němci ostřelují Paříž (doba Petra a Lucie)"],
+  nas:["Monarchie Františka Josefa I.","Za války vězněni čeští politici i spisovatelé (i Dyk), odboj a legie","28. 10. 1918 vzniká Československo"],
+  lit:["Česká moderna, symbolismus, dekadence, anarchističtí buřiči","Expresionismus, pražská německá literatura","Protiválečná literatura"],
+  autori:["František Gellner – Po nás ať přijde potopa!","Fráňa Šrámek – Stříbrný vítr","Petr Bezruč – Slezské písně","Max Brod, Gustav Meyrink (Golem)","Henri Barbusse – Oheň","Jaroslav Hašek – Švejk"],
+  tip:"Krysař i Proměna vyšly 1915: osamělý jedinec, kterého svět nepřijme"},
+ {id:"p6", name:"První republika a dvacátá léta", yrs:"1918–1929",
+  svet:["Versailleský mír (1919), Společnost národů","1922 SSSR, v Itálii Mussolini","„Zlatá dvacátá“: jazz, film, Fordův pás"],
+  nas:["První republika, prezident T. G. Masaryk","Baťa, Škoda, avantgarda (Devětsil)","Pátečníci u Čapků"],
+  lit:["Demokratický proud (Čapek, Poláček, Langer): humanismus, čtivost","Avantgarda (Nezval, Seifert): poetismus","Utopie a antiutopie: varování před technikou a masami"],
+  autori:["Karel Poláček – Bylo nás pět","Vladislav Vančura – Markéta Lazarová","Vítězslav Nezval – Edison","Jevgenij Zamjatin – My","E. Hemingway – Sbohem, armádo!","F. S. Fitzgerald – Velký Gatsby","E. M. Remarque – Na západní frontě klid"]},
+ {id:"p7", name:"Hospodářská krize a nástup diktatur", yrs:"1929–1939",
+  svet:["Černý čtvrtek (24. 10. 1929), velká hospodářská krize","Roosevelt a New Deal (od 1933)","1933 Hitler kancléřem, Stalinovy čistky, Mnichov (1938)"],
+  nas:["Krize v pohraničí, sílí Henleinova strana","1937 umírá Masaryk, 1938 Mnichov, 15. 3. 1939 protektorát","Karel Čapek umírá o Vánocích 1938"],
+  lit:["Sociální próza (život chudých a nezaměstnaných)","Protifašistická tvorba"],
+  autori:["Karel Čapek – Válka s mloky, Matka","Voskovec a Werich – Těžká Barbora","František Halas – Torzo naděje","John Steinbeck – Hrozny hněvu","E. Hemingway – Komu zvoní hrana","Aldous Huxley – Konec civilizace"],
+  tip:"O myších a lidech i Bílá nemoc vyšly 1937: bída zdola × hrozba války shora"},
+ {id:"p8", name:"2. světová válka a protektorát", yrs:"1939–1945",
+  svet:["1. 9. 1939 útok na Polsko, 1941 SSSR a Pearl Harbor","Holokaust: kolem 6 milionů zavražděných Židů","Konec války v Evropě 8. 5. 1945","Británie a SSSR spojenci, proto Farmu zvířat nakladatelé odmítali"],
+  nas:["Protektorát Čechy a Morava (od 15. 3. 1939)","17. 11. 1939 zavřeny vysoké školy, Heydrich, Terezín","Atentát na Heydricha (1942), Lidice, Ležáky, Pražské povstání"],
+  lit:["Odbojová a ilegální tvorba","Válečná próza: 1. vlna o hrdinství, 2. vlna (60. léta) o vině a psychologii"],
+  autori:["Anne Franková – Deník","Primo Levi – Je-li to člověk","A. de Saint-Exupéry – Malý princ","Albert Camus – Cizinec","Josef Škvorecký – Zbabělci","Arnošt Lustig – Modlitba pro K. Horovitzovou","Jan Otčenášek – Romeo, Julie a tma"],
+  tip:"Spalovač i Ostře sledované vlaky se tu odehrávají, ale vyšly až v 60. letech"},
+ {id:"p9", name:"Studená válka a komunismus", yrs:"1945–1989",
+  svet:["Železná opona, studená válka (NATO 1949, Varšavská smlouva 1955)","Na Kubě Batista (od 1952), 1959 Castro","1953 umírá Stalin, 1989 pád Berlínské zdi"],
+  nas:["Únor 1948, cenzura, politické procesy","60. léta uvolnění, Pražské jaro, 21. 8. 1968 okupace, normalizace","Orwell jen v samizdatu a exilu, 1989 sametová revoluce"],
+  lit:["Antiutopie varuje před totalitou","U nás socialistický realismus, 60. léta zlatá éra, po 1968 samizdat a exil"],
+  autori:["Ray Bradbury – 451 stupňů Fahrenheita","A. Solženicyn – Jeden den Ivana Děnisoviče","Milan Kundera – Žert","Václav Havel – Zahradní slavnost"],
+  tip:"Farma zvířat a 1984: bajka o revoluci × vize hotové totality"}
+];
+
+const WORKS = [
+ {id:"lakomec", p:"p1", t:"Lakomec", a:"Molière", life:"1622–1673", y:"1668", druh:"drama", forma:"drama (prózou)", zanr:"charakterová komedie", smer:"klasicismus",
+  tema:"peníze deformují charakter, lakota", motivy:["pokladna","zloděj","lakomství"], cas:"17. století, jeden den", prostor:"Paříž, Harpagonův dům",
+  postavy:[["Harpagon","lakomý vdovec a lichvář, pro peníze obětuje i vlastní děti"],["Kleant","Harpagonův syn, miluje Marianu, je zadlužený"],["Eliška","Harpagonova dcera, miluje Valéra"],["Valér","správce domu, ve skutečnosti šlechtic a syn Anselma"],["Mariana","chudá dívka, miluje Kleanta, dcera Anselma"],["Anselm","neapolský šlechtic, otec Mariany i Valéra, rozuzlí děj"],["Čipera","Kleantův šibalský sluha, ukradne kazetu s penězi"],["Frosina","mazaná dohazovačka, nakonec přejde k mladým"],["Jakub","kuchař a kočí v jednom, komická postava"]],
+  jine:"Tartuffe", souv:"Pierre Corneille (Cid)"},
+ {id:"maj", p:"p2", t:"Máj", a:"Karel Hynek Mácha", life:"1810–1836", y:"1836", druh:"lyricko-epika", forma:"poezie", zanr:"poéma", smer:"romantismus",
+  tema:"tragická láska, vina a trest", motivy:["láska","smrt","příroda","máj","večer","zoufalství"], cas:"1. máj, večer a noc", prostor:"okolí Bezdězu, jezero",
+  postavy:[["Vilém","„strašný lesů pán“, loupežník, nevědomky zabije otce, je popraven"],["Jarmila","Vilémova milá, po jeho zatčení se utopí"],["Hynek (básník)","poutník, po letech rozjímá nad Vilémovou lebkou"],["žalářník","tichý, má s Vilémem lidský soucit"]],
+  jine:"Cikáni", souv:"K. J. Erben (Kytice)"},
+ {id:"havran", p:"p2", t:"Havran", a:"Edgar Allan Poe", life:"1809–1849", y:"1845", druh:"lyricko-epika", forma:"poezie", zanr:"balada", smer:"romantismus (americký, temný)",
+  tema:"smrt milované ženy, nekonečný žal", motivy:["havran","„nevermore“","půlnoc","prosinec","busta Pallas Athény"], cas:"prosincová půlnoc", prostor:"pokoj vypravěče",
+  postavy:[["vypravěč","zlomený muž, truchlí po Lenoře a sám se trápí otázkami"],["havran","„ebenový“ pták, symbol smrti, opakuje jen „nevermore“"],["Lenora","zesnulá milá, existuje jen ve vzpomínkách"]],
+  jine:"Jáma a kyvadlo", souv:"K. J. Erben (Kytice)"},
+ {id:"tyrol", p:"p3", t:"Tyrolské elegie", a:"Karel Havlíček Borovský", life:"1821–1856", y:"1852", yNote:"napsáno 1852, vyšlo 1860–1861", druh:"lyricko-epika", forma:"poezie", zanr:"satirická báseň", smer:"přechod romantismu a realismu",
+  tema:"zatčení a deportace do Brixenu, satira na rakouskou vládu", motivy:["měsíc","policie","cesta do vyhnanství","odloučení od domova"], cas:"prosinec 1851", prostor:"Čechy, cesta do Brixenu (Tyrolsko)",
+  postavy:[["autor","sám Havlíček, vypráví v ich-formě, co zažil"],["měsíc","důvěrník, kterému autor celou báseň vypráví"],["komise (policie)","přijde si pro autora a přinese mu psaní"],["pan Dedera","dává Havlíčkovi rady před odjezdem"],["rakouská vláda","hlavní terč satiry"]],
+  jine:"Král Lávra", souv:"Božena Němcová (Babička)"},
+ {id:"kytice", p:"p3", t:"Kytice", a:"Karel Jaromír Erben", life:"1811–1870", y:"1853", druh:"lyricko-epika", forma:"poezie", zanr:"sbírka balad", smer:"romantismus",
+  tema:"vina a trest, vztah člověka k Bohu", motivy:["matka a dítě","vina","trest","smrt","nadpřirozeno","víra"], cas:"neurčitá minulost, magické chvíle (poledne, půlnoc, Štědrý den)", prostor:"český venkov (les, jezero, hřbitov, chalupa)",
+  postavy:[["matky","nejčastější postava, mateřská láska chrání i zabíjí"],["dcery, milenci, vdovy","typy bez jména, charakterizuje je jediný čin"],["vodník, polednice","nadpřirozené bytosti, vykonavatelé řádu"],["Záhoř","loupežník, který činí pokání a je spasen"],["Dornička","Zlatý kolovrat, zabije ji macecha, stařeček ji oživí"],["Hana a Marie","Štědrý den, Hana uvidí svatbu, Marie rakev"]],
+  jine:"Prostonárodní české písně a říkadla", souv:"K. H. Mácha (Máj)"},
+ {id:"kulicka", p:"p4", t:"Kulička", a:"Guy de Maupassant", life:"1850–1893", y:"1880", druh:"epika", forma:"próza", zanr:"povídka / novela", smer:"realismus, naturalismus",
+  tema:"pokrytectví „lepší“ společnosti", motivy:["jídlo a hlad","kočár","vlastenectví","ponížení"], cas:"zima 1870–1871, prusko-francouzská válka", prostor:"Normandie: Rouen, dostavník, hostinec v Tôtes",
+  postavy:[["Kulička","Alžběta Roussetová, prostitutka a jediná skutečná vlastenka, obětuje se a je zavržena"],["hrabě a hraběnka de Bréville","nejvyšší vrstva, hraběnka vede nátlak na Kuličku"],["Carré-Lamadonovi","bohatý majitel přádelen a jeho mladá žena"],["Loiseauovi","vulgární vinný velkoobchodník a šejdíř s manželkou"],["dvě jeptišky","přemluví Kuličku náboženskými argumenty"],["Cornudet","demokrat, hodně mluví a nic neudělá, píská Marseillaisu"],["pruský důstojník","arogantní okupant, jde mu o ponížení"]],
+  jine:"Miláček", souv:"Émile Zola (Zabiják)"},
+ {id:"krysar", p:"p5", t:"Krysař", a:"Viktor Dyk", life:"1877–1931", y:"1915", druh:"epika", forma:"próza", zanr:"novela", smer:"anarchističtí buřiči",
+  tema:"osud Krysaře a smrt obyvatel Hammeln", motivy:["píšťala","propast","Sedmihradsko","dav","láska","lhostejnost"], cas:"středověk (pověst z r. 1284)", prostor:"Hammeln (Hameln)",
+  postavy:[["Krysař","bezejmenný samotář s píšťalou, zavede město do propasti"],["Agnes","miluje Krysaře, čeká dítě, skočí do propasti"],["Kristián","vypočítavý, touží po klidném průměrném životě"],["Sepp Jörgen","prostý rybář, chápe až druhý den, jediný přežije"],["Frosch a Strumm","chamtiví konšelé, Krysaři nezaplatí"]],
+  jine:"Milá sedmi loupežníků", souv:"Fráňa Šrámek (Stříbrný vítr)"},
+ {id:"promena", p:"p5", t:"Proměna", a:"Franz Kafka", life:"1883–1924", y:"1915", yNote:"napsáno 1912, vyšlo 1915", druh:"epika", forma:"próza", zanr:"povídka / novela", smer:"pražská německá literatura",
+  tema:"Řehořův boj v bezvýchodné situaci, odcizení", motivy:["beznaděj","odcizení","samota","vyčerpání","smrt"], cas:"neurčený", prostor:"byt Samsových, Řehořův pokoj",
+  postavy:[["Řehoř Samsa","obchodní cestující, živí rodinu, promění se v hmyz a umírá"],["Markéta (Grete)","sestra, nejdřív o něj pečuje, pak řekne, že se ho musí zbavit"],["otec","tvrdý a prchlivý, hodí po Řehořovi jablko"],["matka","starostlivá, astmatická, při pohledu na syna omdlévá"],["posluhovačka","hrubá stará žena, jediná se nebojí, tělo uklidí"],["prokurista","nadřízený, ráno přijde zjistit, proč Řehoř nepřišel"],["tři podnájemníci","uvidí Řehoře a vypoví smlouvu"]],
+  jine:"Proces", souv:"E. M. Remarque (Na západní frontě klid)"},
+ {id:"petr", p:"p5", t:"Petr a Lucie", a:"Romain Rolland", life:"1866–1944", y:"1920", yNote:"děj 1918, vyšlo 1920", druh:"epika", forma:"próza", zanr:"protiválečná novela", smer:"protiválečná literatura",
+  tema:"čistá láska na pozadí 1. světové války", motivy:["válka","láska","smrt","mládí","kostel"], cas:"30. 1.–29. 3. 1918 (Velký pátek)", prostor:"Paříž (ulice, metro, kostel sv. Gervasia)",
+  postavy:[["Petr Aubier","18letý syn soudce, za půl roku má narukovat"],["Lucie","chudá dívka, maluje kopie obrazů, žije přítomností"],["Filip","Petrův starší bratr, válka ho změnila a vzala mu ideály"]],
+  jine:"Jan Kryštof", souv:"E. M. Remarque (Na západní frontě klid)"},
+ {id:"rur", p:"p6", t:"R.U.R.", a:"Karel Čapek", life:"1890–1938", y:"1920", yNote:"vyšlo 1920, premiéra 1921", druh:"drama", forma:"drama (prózou)", zanr:"vědeckofantastické drama, tragédie", smer:"česká meziválečná literatura",
+  tema:"vzpoura robotů, zneužití vědy, ztráta lidskosti", motivy:["roboti","experiment","lež","válka","lidskost"], cas:"neurčitá budoucnost (předehra, pak o 10 let později)", prostor:"ostrov, továrna R.U.R.",
+  postavy:[["Harry Domin","ředitel továrny, chce roboty osvobodit lidstvo od práce"],["Helena Gloryová","Dominova žena, soucitná, spálí Rossumův rukopis"],["dr. Gall","na Helenin popud tajně dá robotům city"],["dr. Hallemeier","vede ústav pro psychologii a výchovu robotů"],["Alquist","stavitel, pracuje rukama, jako jediný člověk přežije"],["Busman","obchodní ředitel, chce roboty vykoupit penězi"],["Radius","robot, vůdce vzpoury"],["Primus a robotka Helena","zamilovaní roboti, nový Adam a Eva"],["starý Rossum","vědec, chtěl dokázat, že Bůh není potřeba"],["mladý Rossum","roboty zjednodušil a vyráběl kvůli zisku"]],
+  jine:"Válka s mloky", souv:"E. M. Remarque (Na západní frontě klid)"},
+ {id:"mysi", p:"p7", t:"O myších a lidech", a:"John Steinbeck", life:"1902–1968", y:"1937", druh:"epika", forma:"próza", zanr:"novela", smer:"americká meziválečná próza",
+  tema:"přátelství, osamělost, sen o lepším životě", motivy:["sen o farmě","hlazení hebkých věcí","myši","králíci","Candyho pes","smrt"], cas:"30. léta, hospodářská krize, pár dní", prostor:"Kalifornie, Soledad (farma, řeka Salinas)",
+  postavy:[["George Milton","malý, chytrý, prchlivý, ale věrný, stará se o Lennieho"],["Lennie Small","silný obr, mentálně opožděný, nezná svou sílu"],["Curley","žárlivý a agresivní syn majitele, bývalý boxer"],["Curleyova žena","nemá jméno, osamělá, touží po pozornosti"],["Crooks","černošský štolba, odstrkovaný kvůli barvě pleti"],["Candy","starý uklízeč bez ruky, dá úspory na farmu"],["Slim","kočí, přirozená autorita, jediný Georgeovi rozumí"]],
+  jine:"Hrozny hněvu", souv:"E. M. Remarque (Na západní frontě klid)"},
+ {id:"bila", p:"p7", t:"Bílá nemoc", a:"Karel Čapek", life:"1890–1938", y:"1937", druh:"drama", forma:"drama (prózou)", zanr:"filozofické drama, tragédie", smer:"česká meziválečná literatura",
+  tema:"humanismus proti diktatuře, morální odpovědnost", motivy:["nemoc","lék","válka","rozkaz","smrt"], cas:"neurčitá současnost (asi 1937)", prostor:"neurčený evropský stát (klinika, ordinace, palác)",
+  postavy:[["dr. Galén","chudý lékař, lék dá jen za mír, nakonec ho ušlape dav"],["Maršál","diktátor, sám onemocní a nakonec svolí k míru"],["baron Krüg","zbrojař, odmítne zastavit výrobu, spáchá sebevraždu"],["dvorní rada Sigelius","ctižádostivý ředitel kliniky, chce si přivlastnit objev"],["Maršálova dcera a mladý Krüg","mladý pár, dcera prosí otce o mír"],["rodina (otec, matka, syn, dcera)","obyčejní lidé, ukazují, jak dopadá nemoc a válka"],["dav","slepý fanatismus, zničí vlastního zachránce"]],
+  jine:"Matka", souv:"E. M. Remarque (Na západní frontě klid)"},
+ {id:"farma", p:"p8", t:"Farma zvířat", a:"George Orwell", life:"1903–1950", y:"1945", yNote:"napsáno 1943–1944, vyšlo 1945", druh:"epika", forma:"próza", zanr:"alegorická novela (bajka)", smer:"antiutopie",
+  tema:"kritika totality, zrada ideálů revoluce", motivy:["sedm přikázání","mlýn","bič","přepisování historie"], cas:"neurčený (1. pol. 20. st.), několik let", prostor:"Panská (Zvířecí) farma, Anglie",
+  postavy:[["Napoleon","prase = Stalin, krutý diktátor se psy"],["Kuliš","prase = Trockij, vyhnán a obviňován ze všeho"],["Major","starý kanec = Marx a Lenin, revoluce se nedožije"],["Pištík","prase = propaganda, každou lež vysvětlí"],["Boxer","kůň = pracující lid, sedře se a skončí na jatkách"],["Benjamin","osel = pasivní intelektuál, chápe, ale mlčí"],["Kleoborka","marnivá klisna, uteče k lidem (emigrace)"],["Mojžíš","krkavec = církev, slibuje Cukrkandlovou horu"],["pan Jones","původní majitel = car a kapitalisté"],["psi","tajná policie (NKVD)"],["ovce","tupý dav, bečí naučená hesla"]],
+  jine:"1984", souv:"Karel Čapek (Válka s mloky, Bílá nemoc)"},
+ {id:"osv", p:"p8", t:"Ostře sledované vlaky", a:"Bohumil Hrabal", life:"1914–1997", y:"1965", yNote:"děj jaro 1945, vyšlo 1965", druh:"epika", forma:"próza", zanr:"novela", smer:"2. vlna válečné prózy (60. léta)",
+  tema:"dospívání Miloše Hrmy v posledních měsících války", motivy:["vlaky a stanice","láska a sexualita","nejistota","pokus o sebevraždu","odboj","smrt"], cas:"1945, konec 2. světové války", prostor:"malá železniční stanice v protektorátu",
+  postavy:[["Miloš Hrma","mladý železničář a vypravěč, zapojí se do odboje a zahyne"],["výpravčí Hubička","veselý sukničkář, Milošův vzor, svěří mu úkol"],["přednosta","chová holuby a touží po povýšení"],["Máša","Milošova první láska, po nezdaru s ní pokus o sebevraždu"],["Viktoria Freie","odbojářka, přiveze výbušninu"]],
+  jine:"Obsluhoval jsem anglického krále", souv:"Ladislav Fuks (Spalovač mrtvol)",
+  extra:[
+   {h:"Kompozice a styl", li:["krátká novela, vrcholí výbuchem vlaku","ich-forma, očima Miloše","komické vedle tragického","ironie, nadsázka, kontrast","symbol: vlaky = válka projíždějící životem"]},
+   {h:"Časté chyby", li:["Miloš na konci zemře","vlak zničí Miloš, ne Hubička","pokus o sebevraždu je na začátku","hlavní je dospívání, válka je pozadí","kniha 1965, film Menzela 1966 (Oscar)"]}
+  ]},
+ {id:"spalovac", p:"p8", t:"Spalovač mrtvol", a:"Ladislav Fuks", life:"1923–1994", y:"1967", yNote:"děj 1937–1939, vyšlo 1967", druh:"epika", forma:"próza", zanr:"psychologická novela (horor)", smer:"2. vlna válečné prózy",
+  tema:"rozklad osobnosti pod vlivem nacismu, manipulace", motivy:["smrt","krematorium","řád","spasení","nacismus"], cas:"1937–1939 (nástup nacismu, protektorát)", prostor:"Praha, krematorium, byt Kopfrkinglových",
+  postavy:[["Karel Kopfrkingl","zřízenec krematoria, nacismus z něj udělá vraha rodiny"],["Willi Reinke","nacistický přítel, namluví mu, že má německou krev"],["Lakmé (Marie)","manželka židovského původu, oběsí ji"],["Mili","syn, zabije ho železnou tyčí v krematoriu"],["Zina","dcera, jediná z rodiny přežije"]],
+  jine:"Pan Theodor Mundstock", souv:"Bohumil Hrabal (Ostře sledované vlaky)"},
+ {id:"d1984", p:"p9", t:"1984", a:"George Orwell", life:"1903–1950", y:"1949", druh:"epika", forma:"próza", zanr:"antiutopický román", smer:"antiutopie",
+  tema:"jednotlivec v totalitním státě, marná vzpoura", motivy:["Velký bratr","obrazovky","deník","newspeak","přepisování dějin","strach"], cas:"rok 1984 (budoucnost)", prostor:"Londýn, Oceánie",
+  postavy:[["Winston Smith","úředník Ministerstva pravdy, tajně píše deník, nakonec je zlomen"],["Julie","odvážná milenka, tajně pohrdá Stranou"],["O'Brien","člen Vnitřní strany, Winston v něm zpočátku vidí spojence"],["pan Charrington","starožitník, ve skutečnosti Ideopolicie"],["Velký bratr","tvář Strany, kterou musí každý milovat"],["Emmanuel Goldstein","„nepřítel lidu“, terč Dvou minut nenávisti"],["Syme","pracuje na slovníku newspeaku, je vaporizován"],["Parsons","oddaný soused, udá ho vlastní dcera"]],
+  jine:"Farma zvířat", souv:"Karel Čapek (Válka s mloky, Bílá nemoc)"},
+ {id:"starec", p:"p9", t:"Stařec a moře", a:"Ernest Hemingway", life:"1899–1961", y:"1952", druh:"epika", forma:"próza", zanr:"novela", smer:"ztracená generace",
+  tema:"boj člověka s přírodou a osudem", motivy:["moře","marlín","žraloci","vytrvalost","osamění"], cas:"40. léta 20. st., pár dní", prostor:"kubánská vesnice u Havany, Golfský proud",
+  postavy:[["Santiago","starý chudý rybář, 84 dní bez úlovku, nevzdá se"],["Manolin","chlapec, starcův pomocník a přítel"],["marlín","obří ryba, rovnocenný soupeř a „bratr“"],["žraloci","kořistníci, sežerou mu úlovek"]],
+  jine:"Komu zvoní hrana", souv:"John Steinbeck (O myších a lidech)"}
+];
+
+const LINKS = [
+ ["rur","bila","stejný autor (Čapek)"],
+ ["farma","d1984","stejný autor (Orwell)"],
+ ["maj","havran","temný romantismus, 9 let od sebe"],
+ ["tyrol","kytice","obě za Bachova absolutismu"],
+ ["krysar","promena","obě 1915, osamělý jedinec"],
+ ["mysi","bila","obě 1937, krize"],
+ ["spalovac","osv","2. vlna válečné prózy"],
+ ["maj","kytice","český romantismus, vina a trest"],
+ ["havran","kytice","balada"],
+ ["starec","mysi","americká próza 20. st."],
+ ["bila","d1984","varování před diktaturou"],
+ ["bila","farma","varování před diktaturou"]
+];
+
+const W = Object.fromEntries(WORKS.map(w=>[w.id,w]));
+const P = Object.fromEntries(PERIODS.map(p=>[p.id,p]));
+
+/* ---------- stromy ---------- */
+const L = (label, extra={}) => ({kind:"leaf", label, ...extra});
+const C = (label, c, children, extra={}) => ({kind:"cat", label, c, children, ...extra});
+const S = (label, items) => ({kind:"sub", label, children:items.map(x=>L(x))});
+
+function workTree(w){
+  const p = P[w.p];
+  const links = LINKS.filter(l=>l[0]===w.id||l[1]===w.id).map(l=>{
+    const o = W[l[0]===w.id?l[1]:l[0]]; return L(`${o.t}: ${l[2]}`, {go:o.id});
+  });
+  const same = WORKS.filter(o=>o.p===w.p && o.id!==w.id && !links.some(x=>x.go===o.id)).map(o=>L(`${o.t}: stejné období`, {go:o.id}));
+  const right = [
+    C("Autor",1,[L(`${w.a} (${w.life})`), L(`další dílo: ${w.jine}`), L(`srovnej: ${w.souv}`)]),
+    C("Zařazení",2,[L(`období: ${p.name} (${p.yrs})`), L(`směr: ${w.smer}`), L(`vydáno: ${w.yNote||w.y}`)]),
+    C("Forma, druh, žánr",3,[L(`forma: ${w.forma}`), L(`druh: ${w.druh}`), L(`žánr: ${w.zanr}`)]),
+    C("Doba",8,[S("Literatura",p.lit), S("Ve světě",p.svet), S("U nás",p.nas), S("Autoři doby",p.autori)].concat(p.tip?[L("tip: "+p.tip)]:[]), {collapsed:true}),
+  ];
+  if (links.length+same.length) right.push(C("Souvislosti",4,links.concat(same)));
+  const left = [
+    C("Téma",5,[L(w.tema)]),
+    C("Motivy",6,w.motivy.map(m=>L(m))),
+    C("Časoprostor",7,[L(`čas: ${w.cas}`), L(`prostor: ${w.prostor}`)]),
+    C("Postavy",1,w.postavy.map(([nm,d])=>L(nm,{note:d}))),
+  ];
+  (w.extra||[]).forEach((x,i)=>left.push(C(x.h, i?4:2, x.li.map(l=>L(l)))));
+  return {kind:"root", title:w.t, sub:`${w.a} · ${w.y}`, right, left};
+}
+
+function overviewTree(){
+  const cats = PERIODS.map((p,i)=>C(`${p.yrs} · ${p.name}`, (i%8)+1,
+    WORKS.filter(w=>w.p===p.id).map(w=>L(`${w.t} – ${w.a} (${w.y})`, {go:w.id}))));
+  return {kind:"root", title:"Maturitní kánon", sub:`${WORKS.length} děl · ${PERIODS.length} období`, right:cats.slice(0,5), left:cats.slice(5)};
+}
+
+/* ---------- rozložení ---------- */
+const cv = document.createElement("canvas").getContext("2d");
+const FONT = {
+  cat:'700 14.5px "Bricolage Grotesque", "Segoe UI", sans-serif',
+  sub:'700 14px "Atkinson Hyperlegible", "Segoe UI", sans-serif',
+  leaf:'400 14px "Atkinson Hyperlegible", "Segoe UI", sans-serif',
+  note:'400 13px "Atkinson Hyperlegible", "Segoe UI", sans-serif',
+  rt:'800 23px "Bricolage Grotesque", "Segoe UI", sans-serif',
+  rs:'400 13.5px "Atkinson Hyperlegible", "Segoe UI", sans-serif'
+};
+const MAXW = {cat:230, sub:220, leaf:260};
+const HG = 30, VG = 6, CVG = 16, LH = 19, NLH = 17;
+function tw(t, f){ cv.font=f; return cv.measureText(t).width; }
+function wrap(text, max, f){
+  const words = text.split(" "); const lines=[]; let cur="";
+  for (const wd of words){ const tryL = cur?cur+" "+wd:wd; if (tw(tryL,f)>max && cur){ lines.push(cur); cur=wd; } else cur=tryL; }
+  if (cur) lines.push(cur); return lines;
+}
+function measure(n){
+  if (n.kind==="root"){
+    n.w = Math.max(tw(n.title,FONT.rt), tw(n.sub,FONT.rs)) + 44; n.h = 72;
+  } else {
+    const f = n.note ? FONT.sub : FONT[n.kind];
+    n.lines = wrap(n.label, MAXW[n.kind], f);
+    n.notes = n.note ? wrap(n.note, MAXW.leaf, FONT.note) : [];
+    n.padX = n.kind==="cat"?12:2; n.padY = n.kind==="cat"?7:3;
+    n.w = Math.max(...n.lines.map(l=>tw(l,f)), ...n.notes.map(l=>tw(l,FONT.note))) + n.padX*2;
+    n.h = n.lines.length*LH + n.notes.length*NLH + n.padY*2 + (n.kind==="cat"?0:3);
+  }
+  (n.children||[]).forEach(measure);
+}
+const kidsOf = n => (n.children && n.children.length && !n.collapsed) ? n.children : null;
+function subH(n){
+  const k = kidsOf(n); if (!k) return n.H = n.h;
+  const s = k.reduce((a,c)=>a+subH(c),0) + VG*(k.length-1);
+  return n.H = Math.max(n.h, s);
+}
+function place(n, ix, top, dir){
+  n.dir = dir; n.cy = top + n.H/2; n.top = n.cy - n.h/2;
+  n.x0 = dir>0 ? ix : ix - n.w; n.ix = ix; n.ox = dir>0 ? ix + n.w : ix - n.w;
+  const k = kidsOf(n); if (!k) return;
+  const s = k.reduce((a,c)=>a+c.H,0) + VG*(k.length-1);
+  let y = top + (n.H - s)/2;
+  k.forEach(c=>{ place(c, n.ox + dir*HG, y, dir); y += c.H + VG; });
+}
+const anchorY = n => (n.kind==="cat"||n.kind==="root") ? n.cy : n.top + n.h - 1;
+
+/* ---------- vykreslení ---------- */
+const svg = document.getElementById("svg");
+const canvas = document.getElementById("canvas");
+let tree = null, NODES = [], zoom = 1;
+const esc = s => String(s).replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+function render(){
+  measure(tree); tree.right.concat(tree.left).forEach(measure);
+  const narrow = canvas.clientWidth < 760;
+  const right = narrow ? tree.right.concat(tree.left) : tree.right;
+  const left = narrow ? [] : tree.left;
+  const root = tree; root.cy = 0; root.top = -root.h/2;
+  root.x0 = narrow ? 0 : -root.w/2;
+  [[right, 1],[left,-1]].forEach(([cats,dir])=>{
+    cats.forEach(c=>subH(c));
+    const total = cats.reduce((a,c)=>a+c.H,0) + CVG*Math.max(0,cats.length-1);
+    let y = -total/2;
+    const ix = dir>0 ? root.x0 + root.w + HG*1.4 : root.x0 - HG*1.4;
+    cats.forEach(c=>{ place(c, ix, y, dir); y += c.H + CVG; });
+  });
+
+  NODES = []; let paths = "", nodes = "";
+  let minX=root.x0, maxX=root.x0+root.w, minY=root.top, maxY=root.top+root.h;
+  const visit = (n, parent, color) => {
+    const i = NODES.push(n)-1;
+    minX=Math.min(minX,n.x0); maxX=Math.max(maxX,n.x0+n.w); minY=Math.min(minY,n.top); maxY=Math.max(maxY,n.top+n.h);
+    const px = parent.kind==="root" ? (n.dir>0 ? parent.x0+parent.w : parent.x0) : parent.ox;
+    const py = anchorY(parent), cx = n.ix, cy = anchorY(n), mx = (px+cx)/2;
+    const sw = parent.kind==="root" ? 3 : parent.kind==="cat" ? 2 : 1.5;
+    paths += `<path d="M${px},${py} C${mx},${py} ${mx},${cy} ${cx},${cy}" fill="none" stroke="var(--c${color})" stroke-width="${sw}" stroke-linecap="round"/>`;
+    const hasKids = n.children && n.children.length;
+    const cls = ["n", n.kind, hasKids?"tg":"", n.go?"go":""].join(" ");
+    const label = n.label + (n.note ? ": " + n.note : "");
+    const act = hasKids || n.go ? ` tabindex="0" role="button" aria-label="${esc(label)}${hasKids?(n.collapsed?", sbaleno":", rozbaleno"):""}"` : "";
+    let g = `<g class="${cls}" data-i="${i}"${act}>`;
+    const anchorEnd = n.dir<0 && n.kind!=="cat";
+    const tx = anchorEnd ? n.x0 + n.w - n.padX : n.x0 + n.padX;
+    const ta = anchorEnd ? ' text-anchor="end"' : "";
+    if (n.kind==="cat"){
+      g += `<rect class="box" x="${n.x0}" y="${n.top}" width="${n.w}" height="${n.h}" rx="9" style="fill:color-mix(in srgb, var(--c${color}) 15%, var(--surface));stroke:var(--c${color})" stroke-width="1.5"/>`;
+    } else {
+      g += `<rect x="${n.x0}" y="${n.top}" width="${n.w}" height="${n.h}" fill="transparent"/>`;
+      g += `<line x1="${n.x0}" x2="${n.x0+n.w}" y1="${cy}" y2="${cy}" stroke="var(--c${color})" stroke-width="${n.kind==="sub"?2:1.5}" stroke-linecap="round"/>`;
+    }
+    let y = n.top + n.padY + 14;
+    n.lines.forEach(l=>{ g += `<text x="${tx}" y="${y}"${ta}${n.note?' class="nm"':""}>${esc(l)}</text>`; y += LH; });
+    y -= LH - NLH;
+    n.notes.forEach(l=>{ g += `<text class="nt" x="${tx}" y="${y}"${ta}>${esc(l)}</text>`; y += NLH; });
+    if (hasKids && n.collapsed){
+      const bx = n.ox + n.dir*14;
+      g += `<g class="badge"><circle cx="${bx}" cy="${cy}" r="11" fill="var(--c${color})"/><text x="${bx}" y="${cy+4}" text-anchor="middle">+${n.children.length}</text></g>`;
+      minX=Math.min(minX,bx-14); maxX=Math.max(maxX,bx+14);
+    }
+    g += `</g>`; nodes += g;
+    (kidsOf(n)||[]).forEach(c=>visit(c, n, color));
+  };
+  right.forEach(c=>visit(c, root, c.c)); left.forEach(c=>visit(c, root, c.c));
+
+  nodes += `<g class="n root"><rect x="${root.x0}" y="${root.top}" width="${root.w}" height="${root.h}" rx="14" fill="var(--ink)"/>
+    <text class="t" x="${root.x0+root.w/2}" y="${root.top+33}" text-anchor="middle">${esc(root.title)}</text>
+    <text class="s" x="${root.x0+root.w/2}" y="${root.top+55}" text-anchor="middle">${esc(root.sub)}</text></g>`;
+
+  const pad = 28; minX-=pad; minY-=pad; maxX+=pad; maxY+=pad;
+  const Wd = maxX-minX, Hd = maxY-minY;
+  const fit = Math.max(0.6, Math.min(1, (canvas.clientWidth - 2) / Wd));
+  const scale = fit * zoom;
+  svg.setAttribute("viewBox", `${minX} ${minY} ${Wd} ${Hd}`);
+  svg.setAttribute("width", Wd*scale); svg.setAttribute("height", Hd*scale);
+  svg.innerHTML = paths + nodes;
+}
+
+/* ---------- navigace ---------- */
+const ORDER = PERIODS.flatMap(p=>WORKS.filter(w=>w.p===p.id).sort((a,b)=>a.y-b.y).map(w=>w.id));
+let current = null;
+const list = document.getElementById("list"), pick = document.getElementById("pick"), find = document.getElementById("find");
+
+function norm(s){ return s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,""); }
+function drawList(q){
+  const nq = norm(q.trim());
+  let html = `<button class="ov${current==="__ov"?" on":""}" data-open="__ov">Přehled celého kánonu</button>`, any = false;
+  PERIODS.forEach(p=>{
+    const items = ORDER.filter(id=>W[id].p===p.id).map(id=>{
+      const w = W[id];
+      if (!nq) return [w, null];
+      if (norm(w.t+" "+w.a).includes(nq)) return [w, null];
+      const hit = w.postavy.find(([nm])=>norm(nm).includes(nq));
+      return hit ? [w, "postava: "+hit[0]] : null;
+    }).filter(Boolean);
+    if (!items.length) return;
+    any = true;
+    html += `<div class="era">${p.name} · ${p.yrs}</div>` + items.map(([w,hit])=>
+      `<button class="w${w.id===current?" on":""}" data-open="${w.id}">${w.t}<small${hit?' class="hit"':""}>${hit?esc(hit):w.a}</small></button>`).join("");
+  });
+  if (!any) html += `<div class="none">Nic nenalezeno. Zkus jméno autora, název díla nebo postavu.</div>`;
+  list.innerHTML = html;
+}
+pick.innerHTML = `<option value="__ov">Přehled celého kánonu</option>` +
+  PERIODS.map(p=>`<optgroup label="${p.yrs} · ${p.name}">${ORDER.filter(id=>W[id].p===p.id).map(id=>`<option value="${id}">${W[id].t} – ${W[id].a}</option>`).join("")}</optgroup>`).join("");
+
+function centerView(){
+  canvas.scrollTop = (canvas.scrollHeight - canvas.clientHeight)/2;
+  canvas.scrollLeft = canvas.clientWidth < 760 ? 0 : (canvas.scrollWidth - canvas.clientWidth)/2;
+}
+function open(id){
+  current = id; zoom = 1;
+  tree = id==="__ov" ? overviewTree() : workTree(W[id]);
+  drawList(find.value);
+  pick.value = id;
+  document.title = id==="__ov" ? "Maturitní kánon 17" : `${W[id].t} · Maturitní kánon 17`;
+  try { history.replaceState(null, "", id==="__ov" ? location.pathname : "#"+id); } catch(e){}
+  try { localStorage.setItem("kanon-last", id); } catch(e){}
+  render(); centerView();
+}
+function step(d){
+  const all = ["__ov", ...ORDER]; const i = all.indexOf(current);
+  open(all[(i + d + all.length) % all.length]);
+}
+function setAll(collapsed){
+  const walk = n => (n.children||[]).forEach(c=>{ if (c.kind!=="leaf") c.collapsed = collapsed; walk(c); });
+  tree.right.concat(tree.left).forEach(c=>{ c.collapsed = collapsed; walk(c); });
+  render(); centerView();
+}
+function setZoom(z, keepCenter=true){
+  const cxr = (canvas.scrollLeft + canvas.clientWidth/2) / Math.max(1, canvas.scrollWidth);
+  const cyr = (canvas.scrollTop + canvas.clientHeight/2) / Math.max(1, canvas.scrollHeight);
+  zoom = Math.min(2.2, Math.max(0.4, z));
+  render();
+  if (keepCenter){
+    canvas.scrollLeft = cxr*canvas.scrollWidth - canvas.clientWidth/2;
+    canvas.scrollTop = cyr*canvas.scrollHeight - canvas.clientHeight/2;
+  }
+}
+
+list.addEventListener("click", e=>{ const b=e.target.closest("[data-open]"); if (b) open(b.dataset.open); });
+find.addEventListener("input", ()=>drawList(find.value));
+find.addEventListener("keydown", e=>{ if (e.key==="Enter"){ const b=list.querySelector(".w"); if (b) open(b.dataset.open); } });
+pick.addEventListener("change", e=>open(e.target.value));
+document.getElementById("prev").addEventListener("click", ()=>step(-1));
+document.getElementById("next").addEventListener("click", ()=>step(1));
+document.getElementById("expand").addEventListener("click", ()=>setAll(false));
+document.getElementById("collapse").addEventListener("click", ()=>setAll(true));
+document.getElementById("zin").addEventListener("click", ()=>setZoom(zoom*1.2));
+document.getElementById("zout").addEventListener("click", ()=>setZoom(zoom/1.2));
+document.getElementById("zfit").addEventListener("click", ()=>{
+  measure(tree); zoom = 1; render();
+  const W0 = +svg.getAttribute("width"), H0 = +svg.getAttribute("height");
+  const f = Math.min((canvas.clientWidth-4)/W0, (canvas.clientHeight-4)/H0, 1);
+  setZoom(f, false); centerView();
+});
+canvas.addEventListener("wheel", e=>{ if (e.ctrlKey){ e.preventDefault(); setZoom(zoom * (e.deltaY<0 ? 1.1 : 1/1.1)); } }, {passive:false});
+
+/* táhnutí myší pro posun */
+let drag = null, moved = false;
+canvas.addEventListener("pointerdown", e=>{
+  if (e.pointerType!=="mouse" || e.button!==0) return;
+  drag = {x:e.clientX, y:e.clientY, l:canvas.scrollLeft, t:canvas.scrollTop}; moved = false;
+});
+window.addEventListener("pointermove", e=>{
+  if (!drag) return;
+  const dx = e.clientX-drag.x, dy = e.clientY-drag.y;
+  if (!moved && Math.abs(dx)+Math.abs(dy) > 5){ moved = true; canvas.classList.add("drag"); }
+  if (moved){ canvas.scrollLeft = drag.l - dx; canvas.scrollTop = drag.t - dy; }
+});
+window.addEventListener("pointerup", ()=>{ drag = null; canvas.classList.remove("drag"); });
+
+function activate(el){
+  const n = NODES[+el.dataset.i]; if (!n) return;
+  if (n.go) return open(n.go);
+  if (n.children && n.children.length){ n.collapsed = !n.collapsed; render(); }
+}
+svg.addEventListener("click", e=>{ if (moved){ moved=false; return; } const g=e.target.closest("[data-i]"); if (g) activate(g); });
+svg.addEventListener("keydown", e=>{
+  if (e.key!=="Enter" && e.key!==" ") return;
+  const g=e.target.closest("[data-i]"); if (g){ e.preventDefault(); const i=g.dataset.i; activate(g); const again=svg.querySelector(`[data-i="${i}"]`); if (again) again.focus(); }
+});
+document.addEventListener("keydown", e=>{
+  if (e.target.closest && e.target.closest("select,input,[data-i]")) return;
+  if (e.key==="ArrowRight") step(1); if (e.key==="ArrowLeft") step(-1);
+});
+
+let start = location.hash.slice(1);
+if (!W[start]) { try { start = localStorage.getItem("kanon-last") || ""; } catch(e){ start = ""; } }
+open(W[start] ? start : "__ov");
+window.addEventListener("hashchange", ()=>{ const h = location.hash.slice(1); if (W[h] && h!==current) open(h); });
+let lastW = canvas.clientWidth;
+new ResizeObserver(()=>{ if (Math.abs(canvas.clientWidth-lastW)>4){ lastW=canvas.clientWidth; render(); } }).observe(canvas);
+if (document.fonts) document.fonts.ready.then(()=>{ render(); centerView(); });
+</script>
+</body>
+</html>
